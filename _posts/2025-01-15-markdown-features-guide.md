@@ -23,7 +23,7 @@ code_diff: true
 
 ### 文本格式
 
-你可以使用 **粗体**、*斜体*、~~删除线~~ 等格式。
+你可以使用 **粗体**、_斜体_、~~删除线~~ 等格式。
 
 ### 链接
 
@@ -32,16 +32,19 @@ code_diff: true
 ### 列表
 
 **无序列表：**
+
 - 项目 1
 - 项目 2
 - 项目 3
 
 **有序列表：**
+
 1. 第一项
 2. 第二项
 3. 第三项
 
 **任务列表：**
+
 - [x] 已完成的任务
 - [ ] 未完成的任务
   - [x] 子任务 1
@@ -61,17 +64,17 @@ code_diff: true
 > ##### TIP
 >
 > 这是一个提示信息，用于给出建议或提示。
-{: .block-tip }
+> {: .block-tip }
 
 > ##### WARNING
 >
 > 这是一个警告信息，用于提醒用户注意某些事项。
-{: .block-warning }
+> {: .block-warning }
 
 > ##### DANGER
 >
 > 这是一个危险提示，用于强调重要的警告信息。
-{: .block-danger }
+> {: .block-danger }
 
 ---
 
@@ -91,9 +94,9 @@ def hello_world():
 
 {% highlight python linenos %}
 def fibonacci(n):
-    if n <= 1:
-        return n
-    return fibonacci(n-1) + fibonacci(n-2)
+if n <= 1:
+return n
+return fibonacci(n-1) + fibonacci(n-2)
 {% endhighlight %}
 
 ### 代码差异显示
@@ -137,7 +140,7 @@ $$
 
 \begin{equation}
 \label{eq:cauchy-schwarz}
-\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)
+\left( \sum*{k=1}^n a_k b_k \right)^2 \leq \left( \sum*{k=1}^n a*k^2 \right) \left( \sum*{k=1}^n b_k^2 \right)
 \end{equation}
 
 引用公式：\eqref{eq:cauchy-schwarz}
@@ -235,8 +238,8 @@ $$
 
 在 front matter 中添加 `pretty_table: true` 可以美化表格：
 
-| 左对齐 | 居中 | 右对齐 |
-| :----- | :--: | -----: |
+| 左对齐 |  居中  | 右对齐 |
+| :----- | :----: | -----: |
 | 内容 1 | 内容 2 | 内容 3 |
 | 内容 4 | 内容 5 | 内容 6 |
 
@@ -298,22 +301,22 @@ $$
 
 ```yaml
 ---
-layout: post                    # 必须：使用 post 布局
-title: 文章标题                 # 必须：文章标题
-date: 2025-01-15 14:00:00      # 必须：发布日期
-description: 文章描述           # 可选：文章描述
-tags: 标签1 标签2              # 可选：标签（空格分隔）
-categories: 分类1              # 可选：分类
-thumbnail: assets/img/9.jpg    # 可选：缩略图
-featured: true                  # 可选：标记为精选文章
-giscus_comments: true           # 可选：启用 Giscus 评论
-related_posts: true             # 可选：显示相关文章
-toc:                            # 可选：目录配置
-  beginning: true               # 在文章开头显示目录
-chart:                          # 可选：图表配置
-  chartjs: true                 # 启用 Chart.js
-pretty_table: true              # 可选：美化表格
-code_diff: true                 # 可选：启用代码差异显示
+layout: post # 必须：使用 post 布局
+title: 文章标题 # 必须：文章标题
+date: 2025-01-15 14:00:00 # 必须：发布日期
+description: 文章描述 # 可选：文章描述
+tags: 标签1 标签2 # 可选：标签（空格分隔）
+categories: 分类1 # 可选：分类
+thumbnail: assets/img/9.jpg # 可选：缩略图
+featured: true # 可选：标记为精选文章
+giscus_comments: true # 可选：启用 Giscus 评论
+related_posts: true # 可选：显示相关文章
+toc: # 可选：目录配置
+  beginning: true # 在文章开头显示目录
+chart: # 可选：图表配置
+  chartjs: true # 启用 Chart.js
+pretty_table: true # 可选：美化表格
+code_diff: true # 可选：启用代码差异显示
 ---
 ```
 
@@ -341,4 +344,3 @@ code_diff: true                 # 可选：启用代码差异显示
 ---
 
 希望这篇指南对你有帮助！如有问题，欢迎在评论区留言。
-

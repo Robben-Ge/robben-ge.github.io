@@ -17,15 +17,15 @@ related_publications: true
 
 ```yaml
 ---
-layout: page                    # 必须：使用 page 布局
-title: 项目名称                 # 必须：项目标题
-description: 项目描述           # 必须：项目简短描述
-img: assets/img/12.jpg          # 可选：项目封面图（在项目列表页显示）
-importance: 1                   # 可选：重要性（数字越大，显示越靠前）
-category: work                  # 可选：分类（work 或 fun，需与 projects.md 中的 display_categories 匹配）
-giscus_comments: true           # 可选：启用 Giscus 评论
-related_publications: true      # 可选：显示相关出版物
-redirect: https://example.com   # 可选：重定向到外部链接
+layout: page # 必须：使用 page 布局
+title: 项目名称 # 必须：项目标题
+description: 项目描述 # 必须：项目简短描述
+img: assets/img/12.jpg # 可选：项目封面图（在项目列表页显示）
+importance: 1 # 可选：重要性（数字越大，显示越靠前）
+category: work # 可选：分类（work 或 fun，需与 projects.md 中的 display_categories 匹配）
+giscus_comments: true # 可选：启用 Giscus 评论
+related_publications: true # 可选：显示相关出版物
+redirect: https://example.com # 可选：重定向到外部链接
 ---
 ```
 
@@ -110,9 +110,7 @@ img: null
 每行图片后可以添加说明文字：
 
 ```html
-<div class="caption">
-    这里是图片说明文字
-</div>
+<div class="caption">这里是图片说明文字</div>
 ```
 
 ## 4. 文本内容
@@ -290,4 +288,3 @@ related_publications: false
 ---
 
 希望这个指南对你有帮助！你可以参考这个项目来创建自己的项目页面。
-
