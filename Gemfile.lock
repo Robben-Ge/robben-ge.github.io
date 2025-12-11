@@ -140,8 +140,6 @@ GEM
       jekyll (>= 3.0)
     jekyll-imagemagick (1.4.0)
       jekyll (>= 3.4)
-    jekyll-jupyter-notebook (0.0.6)
-      jekyll
     jekyll-link-attributes (1.0.1)
     jekyll-minifier (0.2.2)
       cssminify2 (~> 2.1.0)
@@ -166,7 +164,6 @@ GEM
     jekyll-toc (0.19.0)
       jekyll (>= 3.9)
       nokogiri (~> 1.12)
-    jekyll-twitter-plugin (2.1.0)
     jekyll-watch (2.2.1)
       listen (~> 3.0)
     jemoji (0.13.0)
@@ -218,7 +215,6 @@ GEM
       stringio
       time
       uri
-    ostruct (0.6.3)
     pathutil (0.16.2)
       forwardable-extended (~> 2.6)
     public_suffix (6.0.2)
@@ -288,7 +284,6 @@ DEPENDENCIES
   jekyll-feed
   jekyll-get-json
   jekyll-imagemagick
-  jekyll-jupyter-notebook
   jekyll-link-attributes
   jekyll-minifier
   jekyll-paginate-v2
@@ -297,10 +292,8 @@ DEPENDENCIES
   jekyll-sitemap
   jekyll-tabs
   jekyll-toc
-  jekyll-twitter-plugin
   jemoji
   observer
-  ostruct
 
 BUNDLED WITH
    2.7.2

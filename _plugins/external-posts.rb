@@ -3,6 +3,7 @@ require 'httparty'
 require 'jekyll'
 require 'nokogiri'
 require 'time'
+require 'timeout'
 
 module ExternalPosts
   class ExternalPostsGenerator < Jekyll::Generator
@@ -23,8 +24,17 @@ module ExternalPosts
     end
 
     def fetch_from_rss(site, src)
-      xml = HTTParty.get(src['rss_url']).body
-      return if xml.nil?
+      begin
+        response = Timeout.timeout(5) do
+          HTTParty.get(src['rss_url'], timeout: 5, open_timeout: 5, read_timeout: 5)
+        end
+        xml = response.body
+        return if xml.nil?
+      rescue Timeout::Error, StandardError => e
+        puts "Error fetching RSS feed from #{src['rss_url']} - #{e.class}: #{e.message}"
+        puts "Skipping external posts from #{src['name']}"
+        return
+      end
       begin
         feed = Feedjira.parse(xml)
       rescue StandardError => e
@@ -73,10 +83,15 @@ module ExternalPosts
 
     def fetch_from_urls(site, src)
       src['posts'].each do |post|
-        puts "...fetching #{post['url']}"
-        content = fetch_content_from_url(post['url'])
-        content[:published] = parse_published_date(post['published_date'])
-        create_document(site, src['name'], post['url'], content)
+        begin
+          puts "...fetching #{post['url']}"
+          content = fetch_content_from_url(post['url'])
+          content[:published] = parse_published_date(post['published_date'])
+          create_document(site, src['name'], post['url'], content)
+        rescue StandardError => e
+          puts "Error fetching post from #{post['url']} - #{e.class}: #{e.message}"
+          puts "Skipping this post"
+        end
       end
     end
 
@@ -92,7 +107,14 @@ module ExternalPosts
     end
 
     def fetch_content_from_url(url)
-      html = HTTParty.get(url).body
+      begin
+        response = Timeout.timeout(5) do
+          HTTParty.get(url, timeout: 5, open_timeout: 5, read_timeout: 5)
+        end
+        html = response.body
+      rescue Timeout::Error, StandardError => e
+        raise "Failed to fetch content from #{url}: #{e.class}: #{e.message}"
+      end
       parsed_html = Nokogiri::HTML(html)
 
       title = parsed_html.at('head title')&.text.strip || ''

@@ -3,8 +3,10 @@
  * Tabler Icons 3.20.0 by tabler - https://tabler.io
  * License - https://github.com/tabler/tabler-icons/blob/master/LICENSE
  */
+@use "sass:string";
+
 $ti-font-family: 'tabler-icons' !default;
-$ti-font-path: './fonts' !default;
+$ti-font-path: '../fonts' !default;
 $ti-font-display: null !default;
 $ti-prefix: 'ti' !default;
 
@@ -33,7 +35,8 @@ $ti-prefix: 'ti' !default;
 }
 
 @function unicode($str) {
-  @return unquote("\"")+unquote(str-insert($str, "\\", 1))+unquote("\"")
+  // produces content values like "\eb1c" without double escaping
+  @return string.unquote("\"\\#{$str}\"");
 }
 
 

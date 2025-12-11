@@ -1,6 +1,9 @@
 // mixins
 // --------------------------
 
+@use "functions" as *;
+@use "variables" as *;
+
 // base rendering for an icon
 @mixin fa-icon {
   -webkit-font-smoothing: antialiased;
