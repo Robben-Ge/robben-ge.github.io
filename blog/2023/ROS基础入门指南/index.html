@@ -1,0 +1,274 @@
+<!DOCTYPE html> <html lang="zh"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> ROS 基础入门指南 | Robben's personal website </title> <meta name="author" content="Robben Ge"> <meta name="description" content="ROS 机器人操作系统基础入门，包括环境搭建、通信机制（话题、服务、参数服务器）等"> <meta name="keywords" content="personal website, research, publications, projects, blog"> <link rel="stylesheet" href="/assets/css/bootstrap.min.css?b05f9a0b7405d7c8c89c7465593dea81"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="/assets/css/academicons.min.css?dadeb9c5d1fd12bc8d37475657446863"> <link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e"> <link rel="canonical" href="https://gewenhao.win/blog/2023/ROS%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/"> <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>initTheme();</script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> Robben's personal website </a> <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse text-right" id="navbarNav"> <ul class="navbar-nav ml-auto flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item active"> <a class="nav-link" href="/blog/">blog </a> </li> <li class="nav-item "> <a class="nav-link" href="/projects/">projects </a> </li> <li class="nav-item"> <button id="search-toggle" title="Search" onclick="openSearchModal()"> <span class="nav-link">ctrl k <i class="ti ti-search"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" title="Change theme"> <i class="ti ti-sun-moon" id="light-toggle-system"></i> <i class="ti ti-moon-filled" id="light-toggle-dark"></i> <i class="ti ti-sun-filled" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">ROS 基础入门指南</h1> <p class="post-meta"> Created on September 01, 2023 </p> <p class="post-tags"> <a href="/blog/2023"> <i class="fa-solid fa-calendar fa-sm"></i> 2023 </a>   ·   <a href="/blog/tag/ros"> <i class="fa-solid fa-hashtag fa-sm"></i> ROS</a>   <a href="/blog/tag/%E6%9C%BA%E5%99%A8%E4%BA%BA"> <i class="fa-solid fa-hashtag fa-sm"></i> 机器人</a>   <a href="/blog/tag/%E5%85%A5%E9%97%A8"> <i class="fa-solid fa-hashtag fa-sm"></i> 入门</a>   <a href="/blog/tag/%E6%95%99%E7%A8%8B"> <i class="fa-solid fa-hashtag fa-sm"></i> 教程</a>   ·   <a href="/blog/category/ros"> <i class="fa-solid fa-tag fa-sm"></i> ROS</a> </p> </header> <article class="post-content"> <div id="markdown-content"> <h1 id="ros-基础入门指南">ROS 基础入门指南</h1> <h2 id="ros-概述与环境搭建">ROS 概述与环境搭建</h2> <p>ROS（Robot Operating System）是一个用于编写机器人软件的灵活框架。它提供了硬件抽象、设备驱动、库、可视化工具、消息传递和包管理等功能。</p> <h3 id="环境搭建">环境搭建</h3> <p>个人没有在虚拟机装 VSCode，使用 VSCode 的远程连接进行开发，体验也不错，就是有些模块还是得到虚拟机操作，比如小乌龟模块启动运行。引出的虚拟机如何固定 IP 之后做详细记录。</p> <hr> <h2 id="一话题通信topic">一、话题通信（Topic）</h2> <p>话题通信是 ROS 中最常用的通信方式，采用发布/订阅模型，实现节点间异步通信。</p> <h3 id="话题通信-c-实现流程">话题通信 C++ 实现流程</h3> <p><strong>发布方逻辑：</strong></p> <ol> <li>包含头文件</li> <li>初始化 ROS 节点:命名(唯一)</li> <li>实例化 ROS 句柄</li> <li>实例化 发布者 对象</li> <li>组织被发布的数据，并编写逻辑发布数据</li> </ol> <p><strong>订阅方逻辑：</strong></p> <ol> <li>包含头文件</li> <li>初始化 ROS 节点:命名(唯一)</li> <li>实例化 ROS 句柄</li> <li>实例化 订阅者 对象</li> <li>处理订阅的消息(回调函数)</li> <li>设置循环调用回调函数</li> </ol> <h3 id="c-代码示例">C++ 代码示例</h3> <p><strong>发布方：</strong></p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"ros/ros.h"</span><span class="cp">
+#include</span> <span class="cpf">"std_msgs/String.h"</span><span class="cp">
+#include</span> <span class="cpf">&lt;sstream&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">feibo</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">tmp</span><span class="o">=</span><span class="n">b</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">==</span><span class="mi">1</span><span class="o">||</span><span class="n">x</span><span class="o">==</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="n">b</span><span class="o">+=</span><span class="n">a</span><span class="p">;</span>
+        <span class="n">a</span><span class="o">=</span><span class="n">tmp</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span><span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="n">setlocale</span><span class="p">(</span><span class="n">LC_ALL</span><span class="p">,</span><span class="s">""</span><span class="p">);</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="n">argv</span><span class="p">,</span><span class="s">"fabuzhe"</span><span class="p">);</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">NodeHandle</span> <span class="n">nh</span><span class="p">;</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">Publisher</span> <span class="n">pub</span><span class="o">=</span><span class="n">nh</span><span class="p">.</span><span class="n">advertise</span><span class="o">&lt;</span><span class="n">std_msgs</span><span class="o">::</span><span class="n">String</span><span class="o">&gt;</span><span class="p">(</span><span class="s">"fibonacci"</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+    <span class="n">std_msgs</span><span class="o">::</span><span class="n">String</span> <span class="n">msg</span><span class="p">;</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">Rate</span> <span class="n">rate</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">count</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">Duration</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">sleep</span><span class="p">();</span><span class="c1">// 留时间来在master中注册</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">ros</span><span class="o">::</span><span class="n">ok</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">stringstream</span> <span class="n">ss</span><span class="p">;</span>
+        <span class="n">ss</span><span class="o">&lt;&lt;</span><span class="n">feibo</span><span class="p">(</span><span class="n">count</span><span class="p">);</span>
+        <span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="o">=</span><span class="n">ss</span><span class="p">.</span><span class="n">str</span><span class="p">();</span>
+        <span class="n">pub</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+        <span class="n">ROS_INFO</span><span class="p">(</span><span class="s">"发布的数据是%s"</span><span class="p">,</span><span class="n">ss</span><span class="p">.</span><span class="n">str</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+        <span class="n">rate</span><span class="p">.</span><span class="n">sleep</span><span class="p">();</span>
+        <span class="n">ros</span><span class="o">::</span><span class="n">spinOnce</span><span class="p">();</span><span class="c1">//官方建议的处理回调函数</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div> <p><strong>订阅方：</strong></p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"ros/ros.h"</span><span class="cp">
+#include</span> <span class="cpf">"std_msgs/String.h"</span><span class="cp">
+</span>
+<span class="kt">void</span> <span class="nf">doMSG</span><span class="p">(</span><span class="k">const</span> <span class="n">std_msgs</span><span class="o">::</span><span class="n">String</span><span class="o">::</span><span class="n">ConstPtr</span> <span class="o">&amp;</span><span class="n">msg</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ROS_INFO</span><span class="p">(</span><span class="s">"%s "</span><span class="p">,</span><span class="n">msg</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span><span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="n">setlocale</span><span class="p">(</span><span class="n">LC_ALL</span><span class="p">,</span><span class="s">""</span><span class="p">);</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="n">argv</span><span class="p">,</span><span class="s">"jieshouzhe"</span><span class="p">);</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">NodeHandle</span> <span class="n">nh</span><span class="p">;</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">Subscriber</span> <span class="n">sub</span><span class="o">=</span><span class="n">nh</span><span class="p">.</span><span class="n">subscribe</span><span class="o">&lt;</span><span class="n">std_msgs</span><span class="o">::</span><span class="n">String</span><span class="o">&gt;</span><span class="p">(</span><span class="s">"fibonacci"</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="n">doMSG</span><span class="p">);</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">spin</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div> <h3 id="话题通信-python-实现流程">话题通信 Python 实现流程</h3> <p><strong>发布者逻辑：</strong></p> <ol> <li>导包</li> <li>初始化 ROS 节点:命名(唯一)</li> <li>实例化 发布者 对象</li> <li>组织被发布的数据，并编写逻辑发布数据</li> </ol> <p><strong>订阅者逻辑：</strong></p> <ol> <li>导包</li> <li>初始化 ROS 节点:命名(唯一)</li> <li>实例化 订阅者 对象</li> <li>处理订阅的消息(回调函数)</li> <li>设置循环调用回调函数</li> </ol> <h3 id="python-代码示例">Python 代码示例</h3> <p><strong>发布者：</strong></p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#! /usr/bin/env python
+</span><span class="kn">import</span> <span class="n">rospy</span>
+<span class="kn">from</span> <span class="n">std_msgs.msg</span> <span class="kn">import</span> <span class="n">String</span>
+
+<span class="n">a</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">b</span><span class="o">=</span><span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">js</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span>
+    <span class="nf">if</span><span class="p">(</span><span class="n">x</span><span class="o">==</span><span class="mi">1</span> <span class="ow">or</span> <span class="n">x</span><span class="o">==</span><span class="mi">2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tmp</span><span class="o">=</span><span class="n">b</span>
+        <span class="n">b</span><span class="o">+=</span><span class="n">a</span>
+        <span class="n">a</span><span class="o">=</span><span class="n">tmp</span>
+        <span class="k">return</span> <span class="n">b</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">init_node</span><span class="p">(</span><span class="sh">"</span><span class="s">tolker</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">pub</span><span class="o">=</span><span class="n">rospy</span><span class="p">.</span><span class="nc">Publisher</span><span class="p">(</span><span class="sh">"</span><span class="s">fibonacci</span><span class="sh">"</span><span class="p">,</span><span class="n">String</span><span class="p">,</span><span class="n">queue_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">msg</span><span class="o">=</span><span class="nc">String</span><span class="p">()</span>
+    <span class="n">rate</span><span class="o">=</span><span class="n">rospy</span><span class="p">.</span><span class="nc">Rate</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">count</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="p">.</span><span class="nf">is_shutdown</span><span class="p">():</span>
+        <span class="n">count</span><span class="o">+=</span><span class="mi">1</span>
+        <span class="n">ans</span><span class="o">=</span><span class="nf">js</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+        <span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="o">=</span><span class="nf">str</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span>
+        <span class="n">pub</span><span class="p">.</span><span class="nf">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="p">.</span><span class="nf">loginfo</span><span class="p">(</span><span class="sh">"</span><span class="s">输出的数据为:%s</span><span class="sh">"</span><span class="p">,</span><span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">rate</span><span class="p">.</span><span class="nf">sleep</span><span class="p">()</span>
+</code></pre></div></div> <p><strong>订阅者：</strong></p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#! /usr/bin/env python
+</span><span class="kn">import</span> <span class="n">rospy</span>
+<span class="kn">from</span> <span class="n">std_msgs.msg</span> <span class="kn">import</span> <span class="n">String</span>
+
+<span class="k">def</span> <span class="nf">doMSG</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">loginfo</span><span class="p">(</span><span class="sh">"</span><span class="s">%s </span><span class="sh">"</span><span class="p">,</span><span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">init_node</span><span class="p">(</span><span class="sh">"</span><span class="s">listener</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">sub</span><span class="o">=</span><span class="n">rospy</span><span class="p">.</span><span class="nc">Subscriber</span><span class="p">(</span><span class="sh">"</span><span class="s">fibonacci</span><span class="sh">"</span><span class="p">,</span><span class="n">String</span><span class="p">,</span><span class="n">doMSG</span><span class="p">,</span><span class="n">queue_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">spin</span><span class="p">()</span>
+</code></pre></div></div> <hr> <h2 id="二服务通信service">二、服务通信（Service）</h2> <p>服务通信采用请求/响应模型，实现节点间同步通信。</p> <h3 id="服务通信-c-实现">服务通信 C++ 实现</h3> <p><strong>服务端逻辑：</strong></p> <ol> <li>包含头文件</li> <li>初始化 ROS 节点</li> <li>创建 ROS 句柄</li> <li>创建 服务 对象</li> <li>回调函数处理请求并产生响应</li> <li>由于请求有多个，需要调用 ros::spin()</li> </ol> <p><strong>客户端逻辑：</strong></p> <ol> <li>包含头文件</li> <li>初始化 ROS 节点</li> <li>创建 ROS 句柄</li> <li>创建 客户端 对象</li> <li>请求服务，接收响应</li> </ol> <h3 id="c-代码示例-1">C++ 代码示例</h3> <p><strong>服务端：</strong></p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"ros/ros.h"</span><span class="cp">
+#include</span> <span class="cpf">"plubing_server_client/addint.h"</span><span class="cp">
+</span>
+<span class="kt">bool</span> <span class="nf">doADD</span><span class="p">(</span><span class="n">plubing_server_client</span><span class="o">::</span><span class="n">addint</span><span class="o">::</span><span class="n">Request</span> <span class="o">&amp;</span><span class="n">req</span><span class="p">,</span><span class="n">plubing_server_client</span><span class="o">::</span><span class="n">addint</span><span class="o">::</span><span class="n">Response</span> <span class="o">&amp;</span><span class="n">res</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">num1</span><span class="o">=</span><span class="n">req</span><span class="p">.</span><span class="n">num1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">num2</span><span class="o">=</span><span class="n">req</span><span class="p">.</span><span class="n">num2</span><span class="p">;</span>
+    <span class="n">ROS_INFO</span><span class="p">(</span><span class="s">"收到数据：%d,%d"</span><span class="p">,</span><span class="n">num1</span><span class="p">,</span><span class="n">num2</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">sum</span><span class="o">=</span><span class="n">num1</span><span class="o">+</span><span class="n">num2</span><span class="p">;</span>
+    <span class="n">res</span><span class="p">.</span><span class="n">sum</span><span class="o">=</span><span class="n">sum</span><span class="p">;</span>
+    <span class="n">ROS_INFO</span><span class="p">(</span><span class="s">"求得的数据：%d"</span><span class="p">,</span><span class="n">sum</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span><span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="n">setlocale</span><span class="p">(</span><span class="n">LC_ALL</span><span class="p">,</span><span class="s">""</span><span class="p">);</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="n">argv</span><span class="p">,</span><span class="s">"server"</span><span class="p">);</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">NodeHandle</span> <span class="n">nh</span><span class="p">;</span>
+    <span class="n">ROS_INFO</span><span class="p">(</span><span class="s">"服务已经启动------"</span><span class="p">);</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">ServiceServer</span> <span class="n">server</span><span class="o">=</span><span class="n">nh</span><span class="p">.</span><span class="n">advertiseService</span><span class="p">(</span><span class="s">"addint"</span><span class="p">,</span><span class="n">doADD</span><span class="p">);</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">spin</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div> <p><strong>客户端：</strong></p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"ros/ros.h"</span><span class="cp">
+#include</span> <span class="cpf">"plubing_server_client/addint.h"</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span><span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="n">setlocale</span><span class="p">(</span><span class="n">LC_ALL</span><span class="p">,</span><span class="s">""</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">argc</span><span class="o">!=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">ROS_INFO</span><span class="p">(</span><span class="s">"提交的参数个数错误"</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="n">ros</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="n">argv</span><span class="p">,</span><span class="s">"client"</span><span class="p">);</span>
+        <span class="n">ros</span><span class="o">::</span><span class="n">NodeHandle</span> <span class="n">nh</span><span class="p">;</span>
+        <span class="n">ros</span><span class="o">::</span><span class="n">ServiceClient</span> <span class="n">client</span><span class="o">=</span><span class="n">nh</span><span class="p">.</span><span class="n">serviceClient</span><span class="o">&lt;</span><span class="n">plubing_server_client</span><span class="o">::</span><span class="n">addint</span><span class="o">&gt;</span><span class="p">(</span><span class="s">"addint"</span><span class="p">);</span>
+        <span class="n">plubing_server_client</span><span class="o">::</span><span class="n">addint</span> <span class="n">ai</span><span class="p">;</span>
+        <span class="n">ai</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">num1</span><span class="o">=</span><span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="n">ai</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">num2</span><span class="o">=</span><span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">waitForExistence</span><span class="p">();</span><span class="c1">//判断服务端是否启动，从而决定是否挂起</span>
+        <span class="kt">bool</span> <span class="n">flag</span><span class="o">=</span><span class="n">client</span><span class="p">.</span><span class="n">call</span><span class="p">(</span><span class="n">ai</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">ROS_INFO</span><span class="p">(</span><span class="s">"响应成功"</span><span class="p">);</span>
+            <span class="n">ROS_INFO</span><span class="p">(</span><span class="s">"响应结果为：%d"</span><span class="p">,</span><span class="n">ai</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">sum</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">ROS_INFO</span><span class="p">(</span><span class="s">"响应失败"</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div> <h3 id="服务通信-python-实现">服务通信 Python 实现</h3> <p><strong>服务端：</strong></p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#! /usr/bin/env python
+</span><span class="kn">import</span> <span class="n">rospy</span>
+<span class="kn">from</span> <span class="n">plubing_server_client.srv</span> <span class="kn">import</span> <span class="n">addint</span><span class="p">,</span><span class="n">addintRequest</span><span class="p">,</span><span class="n">addintResponse</span>
+
+<span class="k">def</span> <span class="nf">doreq</span><span class="p">(</span><span class="n">req</span><span class="p">):</span>
+    <span class="nb">sum</span><span class="o">=</span><span class="n">req</span><span class="p">.</span><span class="n">num1</span><span class="o">+</span><span class="n">req</span><span class="p">.</span><span class="n">num2</span>
+    <span class="n">response</span><span class="o">=</span><span class="nf">addintResponse</span><span class="p">()</span>
+    <span class="n">response</span><span class="p">.</span><span class="nb">sum</span><span class="o">=</span><span class="nb">sum</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">loginfo</span><span class="p">(</span><span class="sh">"</span><span class="s">服务器响应:%d+%d=%d</span><span class="sh">"</span><span class="p">,</span><span class="n">req</span><span class="p">.</span><span class="n">num1</span><span class="p">,</span><span class="n">req</span><span class="p">.</span><span class="n">num2</span><span class="p">,</span><span class="n">response</span><span class="p">.</span><span class="nb">sum</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span><span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">init_node</span><span class="p">(</span><span class="sh">"</span><span class="s">pyserver</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">=</span><span class="n">rospy</span><span class="p">.</span><span class="nc">Service</span><span class="p">(</span><span class="sh">"</span><span class="s">addint</span><span class="sh">"</span><span class="p">,</span><span class="n">addint</span><span class="p">,</span><span class="n">doreq</span><span class="p">)</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">loginfo</span><span class="p">(</span><span class="sh">"</span><span class="s">服务已启动--------</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">spin</span><span class="p">()</span>
+</code></pre></div></div> <p><strong>客户端：</strong></p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#! /usr/bin/env python
+</span><span class="kn">import</span> <span class="n">rospy</span>
+<span class="kn">from</span> <span class="n">plubing_server_client.srv</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="n">sys</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span><span class="o">!=</span><span class="mi">3</span><span class="p">:</span>
+        <span class="n">rospy</span><span class="p">.</span><span class="nf">logerr</span><span class="p">(</span><span class="sh">"</span><span class="s">请正确提交参数</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">sys</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">init_node</span><span class="p">(</span><span class="sh">"</span><span class="s">pyclient</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">client</span><span class="o">=</span><span class="n">rospy</span><span class="p">.</span><span class="nc">ServiceProxy</span><span class="p">(</span><span class="sh">"</span><span class="s">addint</span><span class="sh">"</span><span class="p">,</span><span class="n">addint</span><span class="p">)</span>
+    <span class="n">client</span><span class="p">.</span><span class="nf">wait_for_service</span><span class="p">()</span>
+    <span class="n">req</span><span class="o">=</span><span class="nf">addintRequest</span><span class="p">()</span>
+    <span class="n">req</span><span class="p">.</span><span class="n">num1</span><span class="o">=</span><span class="nf">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">req</span><span class="p">.</span><span class="n">num2</span><span class="o">=</span><span class="nf">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">response</span><span class="o">=</span><span class="n">client</span><span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">num1</span><span class="p">,</span><span class="n">req</span><span class="p">.</span><span class="n">num2</span><span class="p">)</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">loginfo</span><span class="p">(</span><span class="sh">"</span><span class="s">收到回复:%d</span><span class="sh">"</span><span class="p">,</span><span class="n">response</span><span class="p">.</span><span class="nb">sum</span><span class="p">)</span>
+</code></pre></div></div> <hr> <h2 id="三参数服务器">三、参数服务器</h2> <p>参数服务器就是一个存放参数的容器，相当于全局变量的设置。</p> <h3 id="设置参数c">设置参数（C++）</h3> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"ros/ros.h"</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span><span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="n">argv</span><span class="p">,</span><span class="s">"setnode"</span><span class="p">);</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">NodeHandle</span> <span class="n">nh</span><span class="p">;</span>
+    <span class="n">nh</span><span class="p">.</span><span class="n">setParam</span><span class="p">(</span><span class="s">"type"</span><span class="p">,</span><span class="s">"xiaohua"</span><span class="p">);</span>
+    <span class="n">nh</span><span class="p">.</span><span class="n">setParam</span><span class="p">(</span><span class="s">"radiu"</span><span class="p">,</span><span class="mf">0.5</span><span class="p">);</span>
+    <span class="n">nh</span><span class="p">.</span><span class="n">setParam</span><span class="p">(</span><span class="s">"radiu"</span><span class="p">,</span><span class="mf">0.7</span><span class="p">);</span><span class="c1">//可直接覆盖</span>
+    <span class="c1">//ros::param::set() 另一种可用方法</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div> <h3 id="获取和删除参数c">获取和删除参数（C++）</h3> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"ros/ros.h"</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span><span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="n">setlocale</span><span class="p">(</span><span class="n">LC_ALL</span><span class="p">,</span><span class="s">""</span><span class="p">);</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="n">argv</span><span class="p">,</span><span class="s">"param_get"</span><span class="p">);</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">NodeHandle</span> <span class="n">nh</span><span class="p">;</span>
+
+    <span class="kt">double</span> <span class="n">radiu</span><span class="o">=</span><span class="n">nh</span><span class="p">.</span><span class="n">param</span><span class="p">(</span><span class="s">"radiu"</span><span class="p">,</span><span class="mf">0.5</span><span class="p">);</span>
+    <span class="n">ROS_INFO</span><span class="p">(</span><span class="s">"radiu=%.2f"</span><span class="p">,</span><span class="n">radiu</span><span class="p">);</span>
+
+    <span class="c1">// getParam(键,存储结果的变量)</span>
+    <span class="c1">//         存在,返回 true,且将值赋值给参数2</span>
+    <span class="c1">//         如果键不存在，那么返回值为 false，且不为参数2赋值</span>
+    <span class="c1">//     getParamCached键(比getparam更高性能，功能相同)</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">names</span><span class="p">;</span>
+    <span class="n">nh</span><span class="p">.</span><span class="n">getParamNames</span><span class="p">(</span><span class="n">names</span><span class="p">);</span> <span class="c1">//遍历元素</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;&amp;</span><span class="n">name</span> <span class="o">:</span> <span class="n">names</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">ROS_INFO</span><span class="p">(</span><span class="s">"遍历的元素为：%s"</span><span class="p">,</span><span class="n">name</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="kt">bool</span> <span class="n">flag</span><span class="p">;</span>
+    <span class="n">flag</span><span class="o">=</span><span class="n">nh</span><span class="p">.</span><span class="n">deleteParam</span><span class="p">(</span><span class="s">"audiu"</span><span class="p">);</span>
+    <span class="c1">// deleteParam("键")</span>
+    <span class="c1">//     根据键删除参数，删除成功，返回 true，否则(参数不存在)，返回 false</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div> <h3 id="设置参数python">设置参数（Python）</h3> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#! /usr/bin/env python
+</span><span class="kn">import</span> <span class="n">rospy</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span><span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">init_node</span><span class="p">(</span><span class="sh">"</span><span class="s">param_set</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">set_param</span><span class="p">(</span><span class="sh">"</span><span class="s">shuzi</span><span class="sh">"</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">set_param</span><span class="p">(</span><span class="sh">"</span><span class="s">xiaoshu</span><span class="sh">"</span><span class="p">,</span><span class="mf">10.5</span><span class="p">)</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">set_param</span><span class="p">(</span><span class="sh">"</span><span class="s">shuzi</span><span class="sh">"</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+</code></pre></div></div> <h3 id="获取和删除参数python">获取和删除参数（Python）</h3> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#! /usr/bin/env python
+</span><span class="kn">import</span> <span class="n">rospy</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">init_node</span><span class="p">(</span><span class="sh">"</span><span class="s">param_get</span><span class="sh">"</span><span class="p">)</span>
+
+    <span class="n">int_value</span><span class="o">=</span><span class="n">rospy</span><span class="p">.</span><span class="nf">get_param</span><span class="p">(</span><span class="sh">"</span><span class="s">shuzi</span><span class="sh">"</span><span class="p">)</span><span class="c1">#获取键值
+</span>    <span class="n">double_value</span><span class="o">=</span><span class="n">rospy</span><span class="p">.</span><span class="nf">get_param</span><span class="p">(</span><span class="sh">"</span><span class="s">xiaoshu</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">loginfo</span><span class="p">(</span><span class="sh">"</span><span class="s">intvalue=%d</span><span class="sh">"</span><span class="p">,</span><span class="n">int_value</span><span class="p">)</span>
+    <span class="n">rospy</span><span class="p">.</span><span class="nf">loginfo</span><span class="p">(</span><span class="sh">"</span><span class="s">intvalue=%.2f</span><span class="sh">"</span><span class="p">,</span><span class="n">double_value</span><span class="p">)</span>
+
+    <span class="c1">#rospy.get_param_cached()有缓存效率更高
+</span>
+    <span class="n">names</span><span class="o">=</span><span class="n">rospy</span><span class="p">.</span><span class="nf">get_param_names</span><span class="p">()</span><span class="c1">#获取所有元素
+</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+        <span class="n">rospy</span><span class="p">.</span><span class="nf">loginfo</span><span class="p">(</span><span class="sh">"</span><span class="s">name=%s</span><span class="sh">"</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="n">flag</span><span class="o">=</span><span class="n">rospy</span><span class="p">.</span><span class="nf">has_param</span><span class="p">(</span><span class="sh">"</span><span class="s">shuzi</span><span class="sh">"</span><span class="p">)</span><span class="c1">#判断是否包含某个键
+</span>    <span class="nf">if</span><span class="p">(</span><span class="n">flag</span><span class="p">):</span>
+        <span class="n">rospy</span><span class="p">.</span><span class="nf">loginfo</span><span class="p">(</span><span class="sh">"</span><span class="s">存在</span><span class="sh">"</span><span class="p">)</span>
+
+    <span class="n">shuzi</span><span class="o">=</span><span class="n">rospy</span><span class="p">.</span><span class="nf">search_param</span><span class="p">(</span><span class="sh">"</span><span class="s">shuzi</span><span class="sh">"</span><span class="p">)</span><span class="c1">#查找键
+</span>    <span class="n">rospy</span><span class="p">.</span><span class="nf">loginfo</span><span class="p">(</span><span class="sh">"</span><span class="s">%s</span><span class="sh">"</span><span class="p">,</span><span class="n">shuzi</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">rospy</span><span class="p">.</span><span class="nf">delete_param</span><span class="p">(</span><span class="sh">"</span><span class="s">shuzi</span><span class="sh">"</span><span class="p">)</span><span class="c1">#删除键
+</span>    <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">rospy</span><span class="p">.</span><span class="nf">loginfo</span><span class="p">(</span><span class="sh">"</span><span class="s">删除失败</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div> <hr> <h2 id="常用-api">常用 API</h2> <h3 id="初始化">初始化</h3> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// C++</span>
+<span class="n">ros</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="n">argv</span><span class="p">,</span><span class="s">"name"</span><span class="p">);</span>
+
+<span class="c1">// Python</span>
+<span class="n">rospy</span><span class="p">.</span><span class="n">init_node</span><span class="p">(</span><span class="s">"name"</span><span class="p">);</span>
+</code></pre></div></div> <h3 id="话题与服务相关对象">话题与服务相关对象</h3> <p>略（具体实现见上述代码示例）</p> <hr> <h2 id="总结">总结</h2> <p>ROS 提供了三种主要的通信机制：</p> <ol> <li> <strong>话题通信（Topic）</strong> - 异步通信，适用于连续数据流</li> <li> <strong>服务通信（Service）</strong> - 同步通信，适用于请求/响应模式</li> <li> <strong>参数服务器（Parameter Server）</strong> - 全局参数存储</li> </ol> <p>掌握这三种通信机制是 ROS 开发的基础，后续的机器人开发都是基于这些通信机制实现的。</p> </div> </article> <br> <hr> <br> <ul class="list-disc pl-8"></ul> <h2 class="text-3xl font-semibold mb-4 mt-12">Enjoy Reading This Article?</h2> <p class="mb-2">Here are some more articles you might like to read next:</p> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/markdown-features-guide/">Markdown 功能使用指南</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2023/ROS%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/">ROS 机器人开发实践</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2023/ROS%E8%BF%90%E8%A1%8C%E7%AE%A1%E7%90%86%E4%B8%8E%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6/">ROS 运行管理与常用组件</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2023/Web%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/">Web 安全漏洞总结</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2023/MySQL%E6%B3%A8%E5%85%A5%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97/">MySQL 注入完整指南</a> </li> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2025 Robben Ge. © {{ site.time | date: "%Y" }} Robben Ge. All rights reserved. Built with [al-folio]( </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?c15de51d4bb57887caa2c21988d97279"></script> <script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script> <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script> <script>addBackToTop();</script> <script type="module" src="/assets/js/search/ninja-keys.min.js?230637657ac0b42e92d76e2b4c1b4764"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script> <script src="/assets/js/search-data.js"></script> <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script> </body> </html>
