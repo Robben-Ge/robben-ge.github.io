@@ -14,35 +14,43 @@ jobs:
   check:
     # available images: https://github.com/actions/runner-images#available-images
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup Node.js ⚙️
         uses: actions/setup-node@v4
       - name: Install Prettier 💾
         run: npm install --save-dev --save-exact prettier @shopify/prettier-plugin-liquid
       - name: Prettier Check 🔎
         id: prettier
+        continue-on-error: true
         run: npx prettier . --check
-      - name: Create diff 📝
-        # https://docs.github.com/en/actions/learn-github-actions/expressions#failure
-        if: ${{ failure() }}
+      - name: Auto-fix formatting 🔧
+        if: steps.prettier.outcome == 'failure'
+        run: npx prettier . --write
+      - name: Check for changes 📝
+        id: git-check
+        if: steps.prettier.outcome == 'failure'
         run: |
-          npx prettier . --write
-          git diff -- . ':(exclude)package-lock.json' ':(exclude)package.json' > diff.txt
-          npm install -g diff2html-cli
-          diff2html -i file -s side -F diff.html -- diff.txt
-      - name: Upload html diff ⬆️
-        id: artifact-upload
-        if: ${{ failure() && steps.prettier.conclusion == 'failure' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: HTML Diff
-          path: diff.html
-          retention-days: 7
-      - name: Dispatch information to repository 🗣️
-        if: ${{ failure() && steps.prettier.conclusion == 'failure' && github.event_name == 'pull_request' }}
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          event-type: prettier-failed-on-pr
-          client-payload: '{"pr_number": "${{ github.event.number }}", "artifact_url": "${{ steps.artifact-upload.outputs.artifact-url }}", "run_id": "${{ github.run_id }}"}'
+          git diff --exit-code -- . ':(exclude)package-lock.json' ':(exclude)package.json' || echo "has_changes=true" >> $GITHUB_OUTPUT
+      - name: Commit and push changes 🚀
+        if: steps.prettier.outcome == 'failure' && steps.git-check.outputs.has_changes == 'true' && github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "style: auto-format code with Prettier [skip ci]"
+          git push
+      - name: Commit to PR branch 🔀
+        if: steps.prettier.outcome == 'failure' && steps.git-check.outputs.has_changes == 'true' && github.event_name == 'pull_request'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "style: auto-format code with Prettier"
+          git push
