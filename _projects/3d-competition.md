@@ -2,7 +2,7 @@
 layout: page
 title: 3D 大赛
 description: 全国三维数字化创新设计大赛项目，涉及虚拟仿真、PLC 控制、机械臂操作等内容
-img: 
+img:
 importance: 3
 category: work
 ---
@@ -38,6 +38,7 @@ category: work
 #### 相机通讯
 
 添加通讯程序块，在通信开放式用户通信中配置：
+
 - 添加之后组态
 - 伙伴地址为相机地址，端口定为 9730 或现场查看
 - 添加相机数据块
@@ -65,4 +66,3 @@ category: work
 - 机械臂操作
 - 系统集成和调试
 - 多任务管理和时间规划
-

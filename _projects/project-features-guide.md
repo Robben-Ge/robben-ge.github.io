@@ -2,7 +2,7 @@
 layout: page
 title: 项目功能使用指南
 description: 这是一篇综合指南，展示了项目页面中可以使用的所有功能
-img: assets/img/12.jpg
+img:
 importance: 1
 category: work
 giscus_comments: true

@@ -183,6 +183,15 @@ def merge_csv_files(folder_path, output_file):
 
 无人机底盘基于 Mavic 3，接了个算力盒子，然后调算力调半天。
 
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/projects/smart-warehouse-drone.jpg" title="大疆 Mavic 3T 无人机" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+</div>
+<div class="caption">
+    大疆 Mavic 3T 行业应用版无人机，用于智能仓储系统的车机协同
+</div>
+
 ## 技术栈
 
 - **ROS**: 机器人操作系统，用于底盘控制和通信

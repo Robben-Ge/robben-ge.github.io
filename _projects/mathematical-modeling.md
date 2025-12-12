@@ -2,7 +2,7 @@
 layout: page
 title: 数学建模竞赛
 description: 使用 MATLAB 进行数据分析和数学建模，包括数据预处理、统计分析、多元线性回归等
-img: 
+img:
 importance: 2
 category: work
 ---
@@ -17,6 +17,12 @@ category: work
 
 将附件二导入 MATLAB，获取销售流水明细数据，以获取每个商品的销售记录，检查数据是否包含缺失值、异常值，并进行必要的数据清洗和处理，以确保数据的质量。
 
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/projects/image_dRGa3KBAnD.png" title="MATLAB 数据可视化" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+</div>
+
 ```matlab
 %导入附件2
 data = readtable('数值化.xlsx');
@@ -25,12 +31,12 @@ data = readtable('数值化.xlsx');
 column_names = data.Properties.VariableNames;
 
 % 使用 renamevars 函数将列名更改为原列名
-data = renamevars(data, {'x____','x______','x_____1','x_______1','x__________','x_____2','x_______2','x___'}, 
+data = renamevars(data, {'x____','x______','x_____1','x_______1','x__________','x_____2','x_______2','x___'},
                   {'销售日期','扫码销售时间','单品编码','销量(千克)','销售单价(元/千克)','销售类型','是否打折销售','销售额'});
 
 %导入附件1
 data1 = readtable('附件1.xlsx');
-data1 = renamevars(data1, {'x____', 'x_____1','x_____2','x_____3'}, 
+data1 = renamevars(data1, {'x____', 'x_____1','x_____2','x_____3'},
                    {'单品编码','单品名称','分类编码','分类名称'});
 
 %data2用于储存单品编码与单品名称的映射
@@ -109,11 +115,11 @@ for col = 2:size(data3, 2)  % 从第二列开始（第一列通常是标签）
     Q1 = quantile(column_data, 0.25);  % 计算下四分位数
     Q3 = quantile(column_data, 0.75);  % 计算上四分位数
     IQR = Q3 - Q1;  % 计算IQR
-    
+
     k = 1.5;  % 调整异常值的阈值
     lower_threshold = Q1 - k * IQR;  % 下界阈值
     upper_threshold = Q3 + k * IQR;  % 上界阈值
-    
+
     % 识别异常值
     outliers(:, col) = column_data < lower_threshold | column_data > upper_threshold;
 end
@@ -197,6 +203,7 @@ mergedData = join(category_sales1, category_sales, 'Keys',{'time','danpingname'}
 ## 项目总结
 
 通过这次数学建模竞赛，我深入学习了：
+
 - MATLAB 数据处理和分析
 - 数据清洗和预处理技术
 - 统计分析方法
@@ -205,4 +212,3 @@ mergedData = join(category_sales1, category_sales, 'Keys',{'time','danpingname'}
 - 时间序列分析
 
 虽然是从零开始学习 MATLAB，但通过 ChatGPT 辅助编程和三天的高强度学习，最终完成了比赛并获得了宝贵的经验。
-

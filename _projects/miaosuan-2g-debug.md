@@ -2,7 +2,7 @@
 layout: page
 title: 妙算 2G 调试
 description: 大疆妙算 2G 算力机的配置和调试记录，用于 Fastlab 无人机项目
-img: 
+img:
 importance: 1
 category: work
 ---
@@ -18,10 +18,20 @@ PS：第一次接触这样的算力机，贼多坑，给我整麻了，难怪会
 23 年 11 月的破防实录：
 
 调试过程中遇到了很多问题，包括：
+
 - 系统安装和配置
 - 驱动问题
 - 网络配置
 - 软件兼容性问题
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/projects/Screenshot_2024_0322_143525_sRqRo7zatE.jpg" title="妙算 2G 调试过程" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+</div>
+<div class="caption">
+    23 年 11 月的调试记录
+</div>
 
 ## 技术栈
 
@@ -40,4 +50,3 @@ PS：第一次接触这样的算力机，贼多坑，给我整麻了，难怪会
 - 系统性能优化
 
 虽然设备已经停产，但调试过程中积累的经验对后续项目很有帮助。
-
