@@ -1,0 +1,9 @@
+services:
+  jekyll:
+    image: robbenge/my_web_env:latest
+    container_name: robben_web_env
+    volumes:
+      - ..:/workspaces/robben-ge.github.io:cached
+    environment:
+      - JEKYLL_ENV=development
+
