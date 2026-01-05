@@ -6,4 +6,3 @@ services:
       - ..:/workspaces/robben-ge.github.io:cached
     environment:
       - JEKYLL_ENV=development
-

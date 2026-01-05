@@ -2,7 +2,7 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/jekyll
 {
   "name": "Jekyll",
-  
+
   // Use docker-compose for better control over container name
   "dockerComposeFile": "docker-compose.yml",
   "service": "jekyll",
