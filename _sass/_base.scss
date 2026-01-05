@@ -6,6 +6,30 @@
 
 // Typography
 
+// 段落首行缩进（中文排版习惯）
+// 只应用于文章内容区域，不影响列表、引用块等
+article p,
+.post-content p,
+#markdown-content p {
+  text-indent: 2em;
+}
+
+// 排除某些情况下的首行缩进
+article p:first-child,
+.post-content p:first-child,
+#markdown-content p:first-child,
+article ul p,
+article ol p,
+article blockquote p,
+.post-content ul p,
+.post-content ol p,
+.post-content blockquote p,
+#markdown-content ul p,
+#markdown-content ol p,
+#markdown-content blockquote p {
+  text-indent: 0;
+}
+
 p,
 h1,
 h2,
