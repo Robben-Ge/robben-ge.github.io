@@ -10,8 +10,7 @@ description: >
   This is Robben Ge's personal website. Here you can find information about my research, publications, projects, and more.
   Feel free to explore and get in touch!
 footer_text: >
-  © {{ site.time | date: "%Y" }} Robben Ge. All rights reserved.
-  Built with [al-folio](
+  Built with [al-folio](https://github.com/alshedivat/al-folio).
 keywords: personal website, research, publications, projects, blog
 lang: zh
 icon: ⚛️
@@ -61,9 +60,9 @@ max_width: 930px
 # -----------------------------------------------------------------------------
 # Display links to the page with a preview object on social media.
 # see https://schema.org/docs/faq.html for more information
-serve_og_meta: false # Include Open Graph meta tags in the HTML head
-serve_schema_org: false # Include Schema.org in the HTML head
-og_image: # The site-wide (default for all links) Open Graph preview image
+serve_og_meta: true # Include Open Graph meta tags in the HTML head
+serve_schema_org: true # Include Schema.org in the HTML head
+og_image: /assets/img/robben.jpg # The site-wide (default for all links) Open Graph preview image
 
 # -----------------------------------------------------------------------------
 # Analytics and search engine verification
@@ -112,7 +111,7 @@ giscus:
   dark_theme: dark # name of the dark color scheme (preferred works well with al-folio dark mode)
   light_theme: light # name of the light color scheme (preferred works well with al-folio light mode)
   emit_metadata: 0
-  lang: en
+  lang: zh-CN
 
 # Disqus comments (DEPRECATED)
 disqus_shortname: al-folio # put your disqus shortname
