@@ -22,6 +22,10 @@ body {
 body.fixed-top-nav {
   // Add some padding for the nav-bar.
   padding-top: 56px;
+
+  #main-content {
+    scroll-margin-top: 66px;
+  }
 }
 
 body.sticky-bottom-footer {
