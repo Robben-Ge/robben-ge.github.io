@@ -1522,3 +1522,22 @@ figure.cover {
 mjx-container[jax="CHTML"][display="true"] {
   overflow-x: auto;
 }
+
+// Keep keyboard navigation efficient without adding visual noise for pointer users.
+.skip-to-content {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1100;
+  padding: 0.65rem 1rem;
+  color: var(--global-bg-color);
+  background: var(--global-theme-color);
+  border-radius: 0.25rem;
+  transform: translateY(calc(-100% - 1rem));
+  transition: transform 0.2s ease;
+
+  &:focus {
+    color: var(--global-bg-color);
+    transform: translateY(0);
+  }
+}
